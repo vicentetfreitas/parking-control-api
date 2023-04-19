@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -52,10 +51,10 @@ public class ParkingSpotController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOneParkingSpot(@PathVariable(value = "id") UUID id){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
-        if(!parkingSpotModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found.");
+        if (parkingSpotModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional.get());
         }
-        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional.get());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found.");
     }
 
     @DeleteMapping("/{id}")
